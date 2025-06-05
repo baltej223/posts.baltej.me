@@ -28,7 +28,7 @@ export default function Navbar() {
         <>
             <div className="flex flex-row pl-10 pr-10 pt-7 pb-7 justify-between" style={{ fontFamily: "monospace" }}>
                 <div className="text-2xl font-bold" >
-                    posts.baltej
+                    baltej.posts
                 </div>
                 <div className="flex flex-row gap-x-10 text-lg">
                     {/* URLS OR MENU BUTTON*/}
@@ -55,10 +55,15 @@ const getCurrentBreakpoint = () => {
 function URLs(){
     return (
     <>
-    <div className="cursor-pointer">
+    <div className="cursor-pointer" onClick={()=>{
+        let loc = window.location.origin;
+        window.location.href = loc + "/"
+    }}>
         Home
     </div>
-    <div className="cursor-pointer">
+    <div className="cursor-pointer" onClick={()=>{
+            window.open("https://baltej.me/aboutme");
+    }}>
         About
     </div>
     <div className="cursor-pointer">
@@ -111,7 +116,7 @@ export function MenuSheet() {
                         </li>
                         <li>
                             <a
-                                href="/about"
+                                href="https://baltej.me/aboutme"
                                 className="block p-2 rounded hover:bg-gray-100 text-white"
                             >
                                 About
