@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDX Editor - Dark</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #0f0f0f;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #1a1a1a;
+      border-bottom: 1px solid #333;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #e0e0e0;
+    }
+    .post-name-input {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      color: #f0f0f0;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      margin-right: 1rem;
+      font-size: 0.9rem;
+      width: 200px;
+    }
+    .post-name-input::placeholder {
+      color: #aaa;
+    }
+    .save-button {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #3b82f6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .save-button:hover {
+      background-color: #2563eb;
+    }
+    .editor-container {
+      display: flex;
+      flex: 1;
+      padding: 1rem;
+      gap: 1rem;
+    }
+    .editor, .preview {
+      width: 50%;
+      height: 100%;
+      background: #1e1e1e;
+      color: #f0f0f0;
+      border: none;
+      font-size: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      line-height: 1.6;
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      overflow-y: auto;
+    }
+    .editor {
+      resize: none;
+    }
+    pre {
+      overflow-x: auto;
+    }
+    code {
+      background: #2d2d2d;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    a {
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Post Editor</h1>
+    <input id="postName" class="post-name-input" placeholder="Enter post name..." />
+    <button class="save-button" onclick="savePost()">Save</button>
+  </div>
+
+  <div class="editor-container">
+    <textarea id="mdxEditor" class="editor"></textarea>
+    <div id="preview" class="preview"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script>
+    const defaultMDX = `---
+title: "Untitled Post"
+date: "2025-06-06"
+---
+
+import Component from "../components/Example"
+
+# Welcome to your new post ✨
+
+Here is some MDX content with **markdown** and <Component />
+
+\`\`\`js
+console.log("Hello, Bavi!");
+\`\`\``;
+
+    const editor = document.getElementById("mdxEditor");
+    const preview = document.getElementById("preview");
+
+    // Load from localStorage or use default
+    editor.value = localStorage.getItem("mdxContent") || defaultMDX;
+
+    function updatePreview() {
+      localStorage.setItem("mdxContent", editor.value);
+      preview.innerHTML = marked.parse(editor.value);
+      Prism.highlightAll();
+    }
+
+    editor.addEventListener("input", updatePreview);
+    window.addEventListener("load", updatePreview);
+
+    function savePost() {
+      const content = editor.value;
+      const name = document.getElementById("postName").value.trim();
+
+      if (!name) {
+        alert("Please enter a post name before saving.");
+        return;
+      }
+
+      fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, content }),
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to save post");
+        return response.json();
+      })
+      .then(data => {
+        alert("Post saved successfully!");
+      })
+      .catch(error => {
+        alert("Error saving post: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
