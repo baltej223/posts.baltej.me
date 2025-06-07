@@ -35,4 +35,6 @@ app.post('/', (req, res) => {
   });
   
 
-app.listen(4245);
+app.listen(4245, ()=>{
+    console.log("Server Started on http://localhost:4245/");
+});
