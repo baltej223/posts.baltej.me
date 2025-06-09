@@ -1,0 +1,27 @@
+# The Architecture Behind posts.baltej.me
+
+This website isn’t just a regular blog — it’s powered by a custom-built publishing engine designed for speed, scalability, and full control.
+
+![GLOBE](https://cdn.pixabay.com/photo/2012/10/29/15/36/ball-63527_1280.jpg)
+
+Here’s how it works under the hood:
+
+1. **Content Creation**
+   I write posts using **MDX**, which combines Markdown with React components, allowing rich and interactive content.
+
+2. **Static Site Generation (SSG)**
+   I built my own SSG tool that converts the MDX files into static HTML pages. This keeps the site fast and SEO-friendly.
+
+3. **JSON-Based Indexing**
+   Posts metadata (like URLs, titles, dates) is stored in chunked JSON files (`posts.json`, `posts1.json`, `posts2.json`, etc.). This lets the site load only the data it needs, improving performance.
+
+4. **Infinite Scroll & Lazy Loading**
+   The frontend fetches these JSON chunks as needed to provide smooth infinite scrolling without heavy initial loads.
+
+5. **Custom Post Handler**
+   A JavaScript class handles fetching and parsing these JSON files dynamically to power navigation and search.
+
+6. **Subdomain Deployment**
+   The entire system is deployed on the subdomain `posts.baltej.me`, making it a dedicated space for my personal publishing.
+
+This architecture gives me total flexibility to evolve the site, add new features like search and tagging, and maintain complete ownership of my content — all while delivering a fast, seamless experience for readers.
