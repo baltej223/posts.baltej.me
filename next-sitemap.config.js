@@ -6,7 +6,7 @@ module.exports = {
     priority: 0.7,
     sitemapSize: 5000,
     generateRobotsTxt: true,
-    // exclude: ['/protected-page', '/awesome/secret-page'],
+    exclude: ['/bavi', '/look-and-feel'],
     // alternateRefs: [
     //   {
     //     href: 'https://es.example.com',
@@ -27,23 +27,26 @@ module.exports = {
         alternateRefs: config.alternateRefs ?? [],
       }
     },
+    // sourceDir: 'app',
+    sourceDir: '.next', // 👈 ensures it finds build-manifest
+    outDir: 'public',
     // additionalPaths: async (config) => [
     //   await config.transform(config, '/additional-page'),
     // ],
-    robotsTxtOptions: {
-      policies: [
-        {
-          userAgent: '*',
-          allow: '/',
-        },
-        {
-          userAgent: 'test-bot',
-          allow: ['/path', '/path-2'],
-        },
-        {
-          userAgent: 'black-listed-bot',
-          disallow: ['/sub-path-1', '/path-2'],
-        },
-      ],
-    },
+    // robotsTxtOptions: {
+    //   policies: [
+    //     {
+    //       userAgent: '*',
+    //       allow: '/',
+    //     },
+    //     {
+    //       userAgent: 'test-bot',
+    //       allow: ['/path', '/path-2'],
+    //     },
+    //     {
+    //       userAgent: 'black-listed-bot',
+    //       disallow: ['/sub-path-1', '/path-2'],
+    //     },
+    //   ],
+    // },
   }

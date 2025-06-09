@@ -7,24 +7,24 @@ import { Menu, X } from 'lucide-react'; // optional, replace with emoji/icons if
 export default function Navbar() {
     const [brpt, setBrpt] = useState(() =>
         typeof window !== 'undefined' ? window.innerWidth : 0
-      );
-      const [isClient, setIsClient] = useState(false);
-    
-      useEffect(() => {
+    );
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
         setIsClient(true);  // mark client hydration complete
-      
+
         const handleResize = () => {
-          setBrpt(window.innerWidth);
+            setBrpt(window.innerWidth);
         };
-      
+
         window.addEventListener('resize', handleResize);
         handleResize();
 
         return () => window.removeEventListener('resize', handleResize);
-      }, []);
-      if (!isClient) return null; 
+    }, []);
+    if (!isClient) return null;
 
-      return (
+    return (
         <>
             <div className="flex flex-row pl-10 pr-10 pt-7 pb-7 justify-between" style={{ fontFamily: "monospace" }}>
                 <div className="text-2xl font-bold" >
@@ -32,47 +32,45 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-row gap-x-10 text-lg">
                     {/* URLS OR MENU BUTTON*/}
-                    {(brpt >= 768) ? <URLs/> : <MenuSheet />}
+                    {(brpt >= 768) ? <URLs /> : <MenuSheet />}
                 </div>
             </div>
         </>
     )
 }
 
-const getCurrentBreakpoint = () => {
-    if (typeof window === 'undefined') return null; // guard for server-side
-  
-    const width = window.innerWidth;
-  
-    return width;
-    // if (width >= 1536) return '2xl';
-    // if (width >= 1280) return 'xl';
-    // if (width >= 1024) return 'lg';
-    // if (width >= 768) return 'md';
-    // if (width >= 640) return 'sm';
-  };
-  
-function URLs(){
+// const getCurrentBreakpoint = () => {
+//     if (typeof window === 'undefined') return null; // guard for server-side
+
+//     const width = window.innerWidth;
+
+//     return width;
+//     // if (width >= 1536) return '2xl';
+//     // if (width >= 1280) return 'xl';
+//     // if (width >= 1024) return 'lg';
+//     // if (width >= 768) return 'md';
+//     // if (width >= 640) return 'sm';
+// };
+
+function URLs() {
     return (
-    <>
-    <div className="cursor-pointer" onClick={()=>{
-        let loc = window.location.origin;
-        window.location.href = loc + "/"
-    }}>
-        Home
-    </div>
-    <div className="cursor-pointer" onClick={()=>{
-            window.open("https://baltej.me/aboutme");
-    }}>
-        About
-    </div>
-    <div className="cursor-pointer">
-        Contact Me
-    </div>
-    <div className="cursor-pointer">
-        Recents
-    </div>
-    </>
+        <>
+            <a href="/" className="cursor-pointer">
+                Home
+            </a>
+            <a href="https://baltej.me/aboutme" target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                About
+            </a>
+            <a href="https://www.linkedin.com/in/baltej-singh-7789b4313" className="cursor-pointer">
+                Contact Me
+            </a>
+            <a href="/" className="cursor-pointer">
+                Recents
+            </a>
+            <a href="https://baltej.me/aboutme" className="cursor-pointer">
+                Website
+            </a>
+        </>
     );
 }
 
@@ -87,7 +85,7 @@ export function MenuSheet() {
                 onClick={() => setOpen(!open)}
                 className="fixed top-5 right-5 z-50 p-3 bg-black rounded-full shadow-md hover:bg-gray-100 transition-all duration-200"
             >
-                {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5 text-white"/>}
+                {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5 text-white" />}
             </button>
 
             {/* Overlay */}

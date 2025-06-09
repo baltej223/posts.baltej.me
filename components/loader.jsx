@@ -6,48 +6,44 @@ const Loader = ({
   label = 'Loading...',
   showLabel = true,
 }) => {
+  const borderWidth = size * 0.08;
   const ringStyle = {
-    width: size,
-    height: size,
-    border: `${size * 0.08}px solid white`,
-    borderRadius: '50%',
-    animation: `pulse ${2 / speed}s ease-in-out infinite`,
-    boxSizing: 'border-box',
+    width: `${size}px`,
+    height: `${size}px`,
+    borderWidth: `${borderWidth}px`,
+    animationDuration: `${2 / speed}s`,
   };
 
-  const styleSheet = `
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(0.9);
-        opacity: 0.6;
-      }
-      50% {
-        transform: scale(1.1);
-        opacity: 1;
-      }
-    }
-  `;
-
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '1rem',
-      fontFamily: 'system-ui, sans-serif',
-    }}>
-      <style>{styleSheet}</style>
-      <div style={ringStyle}></div>
-      {showLabel && (
-        <span style={{
-          fontSize: '0.75rem',
-          color: '#ccc',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-        }}>
-          {label}
-        </span>
-      )}
+    <div className="fixed inset-0 z-50 font-sans bg-black bg-opacity-80">
+      <style>
+        {`
+          @keyframes pulse-ring {
+            0%, 100% {
+              transform: scale(0.9);
+              opacity: 0.6;
+            }
+            50% {
+              transform: scale(1.1);
+              opacity: 1;
+            }
+          }
+        `}
+      </style>
+      <div
+        className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+        style={{ top: '38.2vh' }} // ≈ 1 / golden ratio of screen height
+      >
+        <div
+          className="border-white border-solid rounded-full animate-[pulse-ring_ease-in-out_infinite]"
+          style={ringStyle}
+        ></div>
+        {showLabel && (
+          <span className="text-xs uppercase tracking-wider text-gray-300">
+            {label}
+          </span>
+        )}
+      </div>
     </div>
   );
 };
