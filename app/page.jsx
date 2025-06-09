@@ -85,7 +85,7 @@ async function fetchAndLoadPosts(setPosts) {
     // I got the Urls and now rendring them.
     // Parsing data [urls] got from latestJsonFile to get the name and date
     // {urls: ['/June-2025/7/some-random-post-name/', '/June-2025/7/The-intelligent-stupids/']}
-    const regex = /^\/([A-Za-z]+)-(\d{4})\/(\d+)\/([^/]+)\/$/;
+    const regex = /^\/([A-Za-z]+)-(\d{4})\/(\d+)\/([^/]+)\/?$/;
     
     let _posts = [];
 
