@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "postbuild": "next-sitemap",
-    "new-post":"node ./auto/index.js",
-    "build-post":"node ./auto/script.js"
+    "new-post":"cd auto && node index.mjs",
+    "build-post":"cd auto && node ./script.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
