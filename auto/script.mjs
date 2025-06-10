@@ -53,12 +53,13 @@ filenames.forEach((file) => {
     let filePath = `${month}-${year}/${day}`; // The filepath of the note in App dir
     let mdxFile = readFileSync(inStorage(file), "utf-8"); // The content of the mdx file in ./storage
     let name = JSON.parse(readFileSync(inStorage("posts.json")))[dt];
-    mdxFile += `
+    mdxFile = `
     export const metadata = {
     title:"${name}",
     description: "With love and passion by Baltej Singh",
     }
-    
+
+    ${mdxFile}
     `
     console.log(name);
 

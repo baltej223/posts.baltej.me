@@ -22,7 +22,7 @@ function LoadPosts() {
         setContent(<>
             {posts.map(
                 (post, index) =>
-                    <Fragment key={index}>
+                    <Fragment key={index} className="gap-x-10">
                         <A_post title={post.title} date={post.date} isLast={index === posts.length - 1} url={`${window.location.origin}${post.url}`}/>
                     </Fragment>
             )}
@@ -50,7 +50,7 @@ function LoadPosts() {
 function A_post({ title, date, key, isLast = 0, url }) {
     return (
         <>
-            <div className="flex flex-row justify-center item-center pb-7 pt-7" 
+            <div className="flex flex-row justify-center item-center pb-7 pt-7 border-1" 
             key={key}>
                 <div className="w-[80%]">
                     <div className="flex flex-row justify-between">
@@ -63,7 +63,7 @@ function A_post({ title, date, key, isLast = 0, url }) {
                     </div>
                 </div>
             </div>
-            {isLast ? "" : <hr className="h-0.5 w-full border-0 bg-gradient-to-r from-transparent via-white to-transparent" />}
+            {/* {isLast ? "" : <hr className="h-0.5 w-full border-0 bg-gradient-to-r from-transparent via-white to-transparent" />} */}
         </>
     )
 }

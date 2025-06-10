@@ -1,0 +1,69 @@
+# JavaScript Concepts you Need to Know
+
+- I was watching this video of Fireship, which talked about 100 concepts which every JS dev should know about, Check it out here : [https://www.youtube.com/watch?v=lkIFF4maKMU](https://www.youtube.com/watch?v=lkIFF4maKMU)
+
+## 1. Dynamically Typed
+- JavaScript is an dynamically typed language which means that no datatypes annotations are necessary unlike languages like C and C++.
+- Check out this stackoverflow questions dedicated for this: [Click it](https://stackoverflow.com/questions/1517582/what-is-the-difference-between-statically-typed-and-dynamically-typed-languages)
+
+## 2. Semicolons
+- Js parser will add semicolons in the end if not put explicitly
+
+## 3. Var, Let, Const. 
+- Why so many of ways to define a single variable, Cause it do with [lexical enviroment](https://medium.com/@mohdtalib.dev/lexical-environment-in-javascript-a2112b78a3cb)
+
+- A lexical environment in JavaScript is a data structure that stores variables and functions defined in the current scope, along with references to all outer scopes. It is also known as the lexical scope.
+
+## 4. this
+In JavaScript, the this keyword refers to an object.
+
+The this keyword refers to different objects depending on how it is used:
+
+- In an object method, this refers to the object.
+- Alone, this refers to the global object.
+- In a function, this refers to the global object.
+- In a function, in strict mode, this is undefined.
+- In an event, this refers to the element that received the event.
+- Methods like call(), apply(), and bind() can refer this to any object.
+
+
+## 5. Pass By value and pass by refrence
+Take an example of this code. 
+```
+let num = 1;
+let obj = new Object();
+aFunc(num, obj);
+// num is passed by value
+// obj is passed by refrence
+````
+-  JS doesn't give you control of memory management, So the memory is managed by JS interpretor itself, which kinda sucks.
+
+## 6. The Prototype Chain
+
+https://youtu.be/lkIFF4maKMU?t=364
+- Objets can inherit properties from each other, cause of a mechanism known as prototype chain 
+- [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain)
+
+## 7. Getters and setters in javascropt classes
+```
+class person{
+      constructor(){
+       this.gender = "m";
+      }
+      get gender() {
+       return this.gender;
+      }
+      set gender(a) {
+       this.gender = a;
+      }
+}
+```
+## 8. Inbuilt data Structures in JS
+- JavaScript have some inbuilt data structures, like array, set, map
+
+## 9. Non Blocking Even loop
+- JavaScript has a non blocking even loop, means that the JavaScript interpreter has one thread to do all the work on which is main thread.
+
+- It does not wait for asynchronous operations such as API calls, timers, or I/O events to complete before moving on to the next piece of code.
+
+- This non-blocking behavior is achieved through the use of web APIs, which handle these operations outside of the main thread.
