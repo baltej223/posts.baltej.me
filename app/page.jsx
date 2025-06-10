@@ -10,8 +10,6 @@ export default function Page() {
         </>)
 }
 
-
-
 function LoadPosts() {
     let [content, setContent] = useState(<Loader />);
     let [posts, setPosts] = useState([]);
