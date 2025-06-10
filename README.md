@@ -5,3 +5,4 @@
 
 ## TODO : (TO Implement)
 - Write an optimise script.
+- Add author, add meta tags, and add time of publish at https://posts.baltej.me/
