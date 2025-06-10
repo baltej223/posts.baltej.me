@@ -3,11 +3,6 @@ import { useEffect, useState, Fragment } from "react";
 import Loader from "@/components/loader";
 import PostHandler from "@/hooks/postsJsonHandler";
 
-export const metadata = {
-    title:"A person publishing Hub where I post thing which feels instrusts to me.",
-    description: "With love and passion by Baltej Singh",
-}
-
 export default function Page() {
     return (
         <>
