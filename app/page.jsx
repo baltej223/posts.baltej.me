@@ -22,7 +22,7 @@ function LoadPosts() {
         setContent(<>
             {posts.map(
                 (post, index) =>
-                    <Fragment key={index} className="gap-x-10">
+                    <Fragment key={index}>
                         <A_post title={post.title} date={post.date} isLast={index === posts.length - 1} url={`${window.location.origin}${post.url}`}/>
                     </Fragment>
             )}
@@ -43,26 +43,28 @@ function LoadPosts() {
     // fetchAndLoadPosts changes the post state so for trigring a rerender
 
     return (<>
+    <div className="flex flex-col gap-y-7">
         {content}
+    </div>
     </>)
 }
 
 function A_post({ title, date, key, isLast = 0, url }) {
     return (
         <>
-            <div className="flex flex-row justify-center item-center pb-7 pt-7 border-1" 
-            key={key}>
+            <a className="flex flex-row justify-center item-center pb-7 pt-7 border-1 border-gray-500 rounded-xl" 
+            key={key} href={url}>
                 <div className="w-[80%]">
                     <div className="flex flex-row justify-between">
-                        <a className="text-2xl font-bold cursor-pointer" href={url}>
+                        <div className="text-2xl font-bold cursor-pointer">
                             {title}
-                        </a>
+                        </div>
                         <div className="text-xl">
                             {date}
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
             {/* {isLast ? "" : <hr className="h-0.5 w-full border-0 bg-gradient-to-r from-transparent via-white to-transparent" />} */}
         </>
     )
