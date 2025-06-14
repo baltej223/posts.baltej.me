@@ -5,13 +5,13 @@ export function useMDXComponents(components) {
 
   return {
     h1: ({ children }) => (
-      <h1  className='text-4xl font-bold pb-5' style={{fontFamily:""}}>{children}</h1>
+      <h1  className='text-4xl font-bold pb-3' style={{fontFamily:""}}>{children}</h1>
     ),
     h2: ({ children }) => (
-      <h1  className='text-3xl font-bold pb-5' style={{fontFamily:""}}>{children}</h1>
+      <h1  className='text-3xl font-bold pb-3' style={{fontFamily:""}}>{children}</h1>
     ),
     h3: ({ children }) => (
-      <h1  className='text-2xl font-bold pb-5' style={{fontFamily:""}}>{children}</h1>
+      <h1  className='text-2xl font-bold pb-3' style={{fontFamily:""}}>{children}</h1>
     ),
     img: ({ src, width = '500', height = '500' }) => {
       return <>
@@ -29,7 +29,10 @@ export function useMDXComponents(components) {
     //   <p style={style} className="text-lg">{children}</p>
     // ),
     li: ({children, style}) => (
-      <li style={style} className="text-lg">{children}</li>
+      <>
+      <li style={style} className="text-lg mb-3">{children}</li>
+      {/* <br/> */}
+      </>
     ),
     code:({children})=>{
       // console.log("rbhi", children);
