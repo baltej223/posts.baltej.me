@@ -1,5 +1,6 @@
 import Image from "next/image"
 import  Code  from "@/components/code"
+import Link from "next/link"
 
 export function useMDXComponents(components) {
 
@@ -43,6 +44,13 @@ export function useMDXComponents(components) {
     },
     hr:()=>{
       return <hr className="mt-10 mb-10 opacity-[60%] rounded bg-zinc-800" />
+    },
+    a:({children, href, className, style})=>{
+      return (
+      <>
+      <Link href={href} className={`text-sky-500 ${className||""}`} style={style||{}}>{children}</Link>
+      </>
+      );
     },
     ...components,
   }
