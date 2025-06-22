@@ -9,7 +9,8 @@
     "lint": "next lint",
     "postbuild": "next-sitemap",
     "new-post": "cd auto && node index.mjs",
-    "build-post": "cd auto && node ./script.mjs"
+    "build-post": "cd auto && node ./script.mjs",
+    "optimise": "cd auto && node ./optimise.js"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",

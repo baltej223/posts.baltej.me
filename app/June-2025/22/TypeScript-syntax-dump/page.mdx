@@ -1,0 +1,232 @@
+export const metadata = {
+title:"TypeScript syntax dump",
+description: "With love and passion by Baltej Singh",
+}
+
+## A full **TypeScript syntax dump** 
+### tailored for someone coming from React JSX:
+
+## 🔰 BASICS
+
+### Type Annotations
+
+```ts
+let age: number = 21;
+let name: string = "Bavi";
+let isCool: boolean = true;
+let anything: any = "can be anything";
+let ids: number[] = [1, 2, 3];
+let things: any[] = [1, "a", true];
+```
+
+### Tuples
+
+```ts
+let person: [string, number] = ["Bavi", 18];
+```
+
+### Enums
+
+```ts
+enum Role { ADMIN, USER, GUEST }
+let myRole: Role = Role.USER;
+```
+
+### Union Types
+
+```ts
+let value: string | number = "hi";
+```
+
+### Type Aliases
+
+```ts
+type ID = string | number;
+let myId: ID = 123;
+```
+
+---
+
+## 🔐 FUNCTIONS
+
+```ts
+function greet(name: string): string {
+  return `Hello, ${name}`;
+}
+
+const sum = (a: number, b: number): number => a + b;
+
+// Optional + Default
+function log(message?: string): void {
+  console.log(message || "Default message");
+}
+```
+
+---
+
+## 👷‍♂️ INTERFACES VS TYPES
+
+### Interface
+
+```ts
+interface User {
+  name: string;
+  age: number;
+  isAdmin?: boolean; // optional
+}
+
+const user1: User = { name: "Bavi", age: 18 };
+```
+
+### Type (can also be used like interfaces)
+
+```ts
+type Post = {
+  id: number;
+  title: string;
+  content?: string;
+}
+```
+
+### Extending
+
+```ts
+interface Admin extends User {
+  permissions: string[];
+}
+```
+
+---
+
+## 🧱 OBJECTS AND CLASSES
+
+```ts
+class Person {
+  name: string;
+  age: number;
+
+  constructor(n: string, a: number) {
+    this.name = n;
+    this.age = a;
+  }
+
+  greet(): string {
+    return `Hi, I’m ${this.name}`;
+  }
+}
+```
+
+---
+
+## 🔧 GENERICS
+
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+let output = identity<string>("Hello");
+
+function merge<T, U>(a: T, b: U): T & U {
+  return { ...a, ...b };
+}
+```
+
+---
+
+## ⚛️ REACT + TYPESCRIPT
+
+### Function Components
+
+```tsx
+type Props = {
+  name: string;
+  age?: number;
+};
+
+const MyComponent: React.FC<Props> = ({ name, age }) => {
+  return <h1>{name} {age}</h1>;
+};
+```
+
+### useState
+
+```tsx
+const [count, setCount] = useState<number>(0);
+const [user, setUser] = useState<User | null>(null);
+```
+
+### useRef
+
+```tsx
+const inputRef = useRef<HTMLInputElement>(null);
+```
+
+### useEffect
+
+```tsx
+useEffect(() => {
+  console.log("mounted");
+}, []);
+```
+
+### Event Handling
+
+```tsx
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  console.log(e.currentTarget);
+};
+```
+
+### Form Events
+
+```tsx
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setText(e.target.value);
+};
+```
+
+---
+
+## 📦 TYPE GUARDS & ASSERTIONS
+
+```ts
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+```
+
+```ts
+let someValue: unknown = "text";
+let strLength: number = (someValue as string).length;
+```
+
+---
+
+## 🧩 UTILITY TYPES
+
+```ts
+Partial<T>
+Required<T>
+Readonly<T>
+Record<K, T>
+Pick<T, K>
+Omit<T, K>
+Exclude<T, U>
+ReturnType<T>
+```
+
+---
+
+## 🧠 ADVANCED PATTERNS
+
+* Discriminated unions (for exhaustive type checking)
+* Mapped types (`{ [K in keyof T]: ... }`)
+* Conditional types (`T extends U ? X : Y`)
+* Template literal types (`` `id-${string}` ``)
+
+---
+
+Let me know which of these you want deeper examples or real usage of in your React apps—like props inference, context types, TS with Redux, etc. You’re officially coding with superpowers now.
+
+    
