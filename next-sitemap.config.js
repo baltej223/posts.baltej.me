@@ -2,6 +2,8 @@
 
 module.exports = {
     siteUrl: 'https://posts.baltej.me',
+    generateIndex: true,    // force creation of sitemap.xml (index)
+    autoLastmod: true,   
     changefreq: 'daily',
     priority: 0.7,
     sitemapSize: 5000,
@@ -28,7 +30,6 @@ module.exports = {
       }
     },
     // sourceDir: 'app',
-    sourceDir: '.next', // 👈 ensures it finds build-manifest
     outDir: 'public',
     // additionalPaths: async (config) => [
     //   await config.transform(config, '/additional-page'),
