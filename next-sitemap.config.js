@@ -21,15 +21,14 @@ module.exports = {
     // ],
     // Default transformation function
     transform: async (config, path) => {
-    console.log('Adding URL to sitemap:', path);
-    return {
-      loc: path,
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-      changefreq: config.changefreq,
-      priority: config.priority,
-      alternateRefs: [],
-    };
-  },
+      return {
+        loc: path, // => this will be exported as http(s)://<config.siteUrl>/<path>
+        changefreq: config.changefreq,
+        // priority: config.priority,
+        lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+        alternateRefs: config.alternateRefs ?? [],
+      }
+    },
     sourceDir: '.next',
     outDir: 'public',
     // additionalPaths: async (config) => [
