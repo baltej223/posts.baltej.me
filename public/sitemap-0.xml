@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://posts.baltej.me</loc><lastmod>2025-06-09T08:02:20.107Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://posts.baltej.me/June-2025/7/The-intelligent-stupids</loc><lastmod>2025-06-09T08:02:20.107Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://posts.baltej.me/June-2025/9/Welcome-to-posts.baltej.me</loc><lastmod>2025-06-09T08:02:20.107Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://posts.baltej.me/June-2025/9/The-Architecture-Behind-posts.baltej.me</loc><lastmod>2025-06-09T08:02:20.107Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/9/Welcome-to-posts.baltej.me</loc><lastmod>2025-06-25T07:15:30.583Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/7/The-intelligent-stupids</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/17/Starting-DSA-journey</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/9/The-Architecture-Behind-posts.baltej.me</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/11/React-Hydration</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/10/JavaScript-Concepts-you-Need-to-Know</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://posts.baltej.me/June-2025/22/TypeScript-syntax-dump</loc><lastmod>2025-06-25T07:15:30.584Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

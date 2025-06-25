@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap",
+    "postbuild": "next-sitemap && node ./custom_postBuild.cjs",
     "new-post": "cd auto && node index.mjs",
     "build-post": "cd auto && node ./script.mjs",
     "optimise": "cd auto && node ./optimise.js"
