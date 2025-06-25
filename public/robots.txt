@@ -2,5 +2,8 @@
 User-agent: *
 Allow: /
 
+# Host
+Host: https://posts.baltej.me
+
 # Sitemaps
 Sitemap: https://posts.baltej.me/sitemap.xml

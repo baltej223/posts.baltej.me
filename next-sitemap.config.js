@@ -29,7 +29,7 @@ module.exports = {
         alternateRefs: config.alternateRefs ?? [],
       }
     },
-    // sourceDir: 'app',
+    sourceDir: '.next',
     outDir: 'public',
     // additionalPaths: async (config) => [
     //   await config.transform(config, '/additional-page'),
