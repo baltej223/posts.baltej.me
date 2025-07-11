@@ -1,0 +1,25 @@
+export const metadata = {
+title:"What is Docker",
+description: "With love and passion by Baltej Singh",
+}
+
+# Docker
+### What is Docker, and why is it needed?
+- When I make an application which runs on my computer, we can't say with absolutely surety that I will run on other machines too cause every machine is different. Docker exactly solved this, this is how.  
+- There is a concept of containers, which is, Container is a single packed system which carries all the essential components for an application to run, even the OS.
+- So using Docker, anyone can make an container packed with an application or more multiple containers and the container will run separately in its own environment, in its own operating system.
+So basically Docker removed the effect of the host system on the application.
+- Without docker the application which did run on my machine may not run on some other machine, may be your machine.
+- Docker usually uses an OS which is *docker-linux*.
+- Also saying containers are truly detached from the host system won't be correct, as a *bare-bone* empty container only have the OS, **still containers run on the *host machine Kernel*** only unlike Virtual Machines which even carries the Kernel packed into them.
+- Containers do run on the host Kernel and not on some interface provided by docker.
+- Basically docker is just **Docker is just a tool (a container runtime engine) that helps you manage containers by using built-in Linux kernel features.**
+
+### Some Terminology
+- I believe that meaning and essence of **Container** will be pretty clear to you. There is another essential concept, the ***image***.
+#### Image:
+- An image is like a blueprint to create a container from scratch.
+- As said, image can be used to create any container. 
+- You can find a lot of images on docker hub, like postgresSQL, MongoDB, Ollaama and a lot more.
+- You can make an container an can then create an image of it and can upload to docker hub. And then anyone will be able to pull **image** from hub and will be able to create an container out of it to run.
+    
