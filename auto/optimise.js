@@ -25,7 +25,7 @@ catch (e) {
 }
 // I got the posts, Now we have to check that if all of them are built or not
 console.log("-------Entries in posts.json:-----\n");
-Object.keys(posts) || [].forEach((time, index) => {
+Object.keys(posts).forEach((time, index) => {
     let filename = posts[time];
     console.log(`${index} : ${filename}.mdx`);
 });
@@ -37,8 +37,8 @@ function isBuilt(time) {
     // console.log(filename);
     // let fileLoc = "";
     const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
+        'Jan', 'Feb', 'March', 'April', 'May', 'June',
+        'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
     let dt = new Date(time);
     let year = dt.getFullYear();

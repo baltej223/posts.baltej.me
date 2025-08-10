@@ -62,8 +62,8 @@ function isBuilt(time:string){
   // let fileLoc = "";
 
   const months = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'Jan', 'Feb', 'March', 'April', 'May', 'June',
+  'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ];
 
   let dt = new Date(time);
