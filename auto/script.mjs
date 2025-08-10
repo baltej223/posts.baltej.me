@@ -42,13 +42,14 @@ function inPostDir(_path = "") {
 const months = { 0: "Jan", 1: "Feb", 2: "March", 3: "April", 4: "May", 5: "June", 6: "July", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec" }
 
 filenames.forEach((file) => {
+    console.log("Processing file: ", file);
     let dt = new Date(file.replace(".mdx", ""));
     let year = dt.getFullYear();
     let month = months[dt.getMonth()];
     let day = dt.getDate(); // the date\
 
     // For Debuggin:
-    console.log(year, month, day, inStorage(file));
+    // console.log(year, month, day, inStorage(file));
 
     let filePath = `${month}-${year}/${day}`; // The filepath of the note in App dir
     let mdxFile = readFileSync(inStorage(file), "utf-8"); // The content of the mdx file in ./storage
@@ -60,7 +61,7 @@ description: "With love and passion by Baltej Singh",
 
 ${mdxFile}
     `
-    console.log(name);
+    console.log("Name of the file processing right now: ", name);
 
     checkAndWrite(inApp(filePath + "/" + name + "/" + "page.mdx"), mdxFile);
 
@@ -111,7 +112,7 @@ ${mdxFile}
         read:(number="")=>{
             return JSON.parse(readFileSync(inPostDir(`posts${number}.json`), "utf-8"));
         },
-        write:(number=1, obj)=>{
+        write:(number, obj)=>{
             let jsn;
             try {jsn = JSON.stringify(obj);}
             catch(e){throw new Error("The object provided for writing, is not serilisable.", e);}
@@ -128,13 +129,13 @@ ${mdxFile}
     // { posts: [...elements] }
     // example: { posts: [4,3,2,1] }
     // The first link will be the latest one.
-    let latest = postsFiles[0] // The latest one. 
+    let latest = postsFiles[0] // The latest one.
     if (latest == undefined){
         // Means there are no files. May be using for the first time.
         posts_json.create(1);
         let post_index_file = posts_json.read();
         post_index_file.posts.unshift(1)
-        posts_json.write("",post_index_file);
+        posts_json.write("", post_index_file);
     }
     // So till now, We ensured that the public/posts dir exists, and if not created. Then created posts.json if not exists and then created posts1.json if none of the file exists. 
     // Now our original goal was to add the entry for freshly built mdx files in app dir.
@@ -153,11 +154,15 @@ ${mdxFile}
         // Now I have to add it to posts.json file and also shift the latest varible to post the freshly created file.
         let post_index_file = posts_json.read(); // will read the posts.json file.
         post_index_file.posts.unshift(latest+1);
-        posts_json.write(1, post_index_file);
+        posts_json.write("", post_index_file);
+
+        latest = posts_json.read().posts[0]; // <-- refresh latest
+        latest_json_file = posts_json.read(latest); // <-- refresh file
     }
-    latest = posts_json.read().posts[0];
+    // latest = posts_json.read().posts[0];
     // Now finally writting the newly built post to the latest postsX.json file
-    latest_json_file = posts_json.read(latest);
+    // latest_json_file = posts_json.read(latest);
+
     console.log(latest_json_file);
     let entry = `/${filePath}/${name}/`;
     if (!latest_json_file.urls.includes(entry)){

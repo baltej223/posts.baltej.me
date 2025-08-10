@@ -1,0 +1,43 @@
+export const metadata = {
+title:"OPUS",
+description: "With love and passion by Baltej Singh",
+}
+
+Opus is an **open, royalty-free, highly versatile audio codec** standardized by the IETF (RFC 6716). It’s designed for both **speech** and **music** and is widely used in real-time communication apps like Discord, WhatsApp, and Zoom, as well as for audio streaming.
+
+---
+
+### **Key features**
+
+* **Hybrid design:** Combines two core technologies:
+
+  * **SILK** → optimized for speech (from Skype).
+  * **CELT** → optimized for low-delay, high-fidelity music coding.
+* **Wide bitrate range:** From about **6 kbps** (very compressed speech) up to **510 kbps** (transparent quality stereo music).
+* **Low latency:** As low as **2.5 ms frame size**, which is much better than older codecs like MP3 or AAC for live communication.
+* **Adaptable:** Can seamlessly switch between speech and music modes, bitrates, and bandwidths during a stream.
+* **Broad frequency support:** Narrowband (8 kHz) to Fullband (48 kHz).
+* **Error resilience:** Built for unstable network conditions (packet loss concealment).
+
+---
+
+### **Common uses**
+
+* **VoIP:** Skype, WhatsApp, Discord, Zoom.
+* **Streaming:** YouTube (for some live streams), in-game voice chat.
+* **Storage:** Supported in `.opus` files for high-quality audio at low sizes.
+* **Web:** Built into WebRTC for browser-based calls.
+
+---
+
+### **Why it’s good**
+
+* Better quality at lower bitrates than MP3, AAC, or Vorbis.
+* Real-time friendly (very low delay).
+* Free and open — no licensing fees.
+
+---
+
+If you want, I can also explain **how Opus dynamically switches between SILK and CELT internally** depending on the content, which is one of the reasons it outperforms older codecs.
+
+    
