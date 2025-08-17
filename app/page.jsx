@@ -38,7 +38,8 @@ function LoadPosts() {
 
 
     useEffect(() => {
-        post_s()
+        post_s();
+        console.log(posts);
     }, [posts, setContent]);
     // fetchAndLoadPosts changes the post state so for trigring a rerender
 
@@ -136,7 +137,7 @@ async function fetchAndLoadPosts(setPosts) {
     postContents.forEach((postContent) => {
         postContent.urls.forEach((url) => {
             let [name, date] = GetNameFromUrl(url);
-            _posts.push({ title: name, date });
+            _posts.push({ title: name, date, url });
         });
     });
 
