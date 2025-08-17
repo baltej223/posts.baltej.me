@@ -76,50 +76,113 @@ function A_post({ title, date, key, isLast = 0, url}) {
                     <p className="text-sm text-gray-500 whitespace-nowrap">{date}</p>
                 </div>
             </a>
-            {/* {isLast ? "" : <hr className="h-0.5 w-full border-0 bg-gradient-to-r from-transparent via-white to-transparent" />} */}
         </>
     )
 }
 
 
+// async function fetchAndLoadPosts(setPosts) {
+//     console.log("fetch function called");
+//     let _posts = [];
+
+//     let latestFile = await
+//     (async ()=>{
+//         let latestFile = await (await fetch("/posts/posts.json")).json();
+//         return latestFile;
+//     })();
+    
+//     console.log(latestFile);
+//     // [4,3,2,1]
+//     // let latestFileNumber = await latestFile.posts[0];
+    
+//     latestFile.posts.forEach(async (postNumber, index)=>{
+//         // let postContent = fetch(`posts/posts${postNumber}.json`);
+//         let postContent = await (async ()=>{
+//             let __postContent__ = await (await fetch(`/posts/posts${postNumber}.json`)).json(); 
+//             return __postContent__;
+//         })();
+        
+//         // console.log(postContent)
+
+//         let inner__posts = [];
+//         postContent.urls.forEach((url, index)=>{
+//             let [name, date] = GetNameFromUrl(url);
+//             inner__posts  = [...inner__posts, {title:name, date}];
+//             // console.log(inner__posts);
+//         });
+//         _posts = [..._posts, ...inner__posts];
+//     });
+
+//     console.log(_posts);
+//     setPosts((prev_posts)=>{
+//         return [..._posts];
+//     });
+// }
+
 async function fetchAndLoadPosts(setPosts) {
-    const posts_handler = new PostHandler();
+    console.log("fetch function called");
 
-    // let postsJson0 = await posts_handler.getAllJsonFiles();
-    // let latest = postsJson0.posts[0];
-    // console.log(latest);
+    let latestFile = await (await fetch("/posts/posts.json")).json();
+    console.log(latestFile);
 
-    // See the first goal is to render the latest batch of URLs
-    let latestXFile = await posts_handler.getLatestJsonFile();
-    console.log(await latestXFile);
-
-    // I got the Urls and now rendring them.
-    // Parsing data [urls] got from latestJsonFile to get the name and date
-    // {urls: ['/June-2025/7/some-random-post-name/', '/June-2025/7/The-intelligent-stupids/']}
-    const regex = /^\/([A-Za-z]+)-(\d{4})\/(\d+)\/([^/]+)\/?$/;
+    // fetch all post JSONs in parallel
+    let postContents = await Promise.all(
+        latestFile.posts.map(async (postNumber) => {
+            return await (await fetch(`/posts/posts${postNumber}.json`)).json();
+        })
+    );
 
     let _posts = [];
-
-    latestXFile.urls.forEach((url, index) => {
-        const match = url.match(regex);
-
-        if (match) {
-            const [_, month, year, day, slug] = match;
-
-            const date = `${day} ${month} ${year}`;
-            const name = slug.replace(/-/g, ' ');
-
-            // Writing the name and date in local variable posts and in the end the posts variable will be spread into posts global state using setPosts
-            // Other wise each of the URL will be parsed to render one by one. Not good.
-            _posts.push({ title: name, date, url });
-
-        } else {
-            console.log("No match");
-            throw new Error("The URLs fetch from latest JSON file can't be parsed, Some Error when static site genrator. Frontend's clean.");
-        }
+    postContents.forEach((postContent) => {
+        postContent.urls.forEach((url) => {
+            let [name, date] = GetNameFromUrl(url);
+            _posts.push({ title: name, date });
+        });
     });
 
-    setPosts((posts) => {
-        return [..._posts]
-    });
+    console.log(_posts);
+    setPosts([..._posts]);
 }
+
+
+
+function GetNameFromUrl(url){
+    const regex = /^\/([A-Za-z]+)-(\d{4})\/(\d+)\/([^/]+)\/?$/;
+    const match = url.match(regex);
+    let name, date;
+    if (match) {
+        const [_, month, year, day, slug] = match;
+
+        date = `${day} ${month} ${year}`;
+        name = slug.replace(/-/g, ' ');
+
+    } else {
+        console.log("No match");
+        throw new Error("The URLs fetch from latest JSON file can't be parsed, Some Error when static site genrator. Frontend's clean.");
+    }
+    return [name, date];
+}
+
+    // const regex = /^\/([A-Za-z]+)-(\d{4})\/(\d+)\/([^/]+)\/?$/;
+    // console.log(latestXFile);
+
+    // latestXFile.urls.forEach((url, index) => {
+    //     const match = url.match(regex);
+
+    //     if (match) {
+    //         const [_, month, year, day, slug] = match;
+
+    //         const date = `${day} ${month} ${year}`;
+    //         const name = slug.replace(/-/g, ' ');
+
+    //         // Writing the name and date in local variable posts and in the end the posts variable will be spread into posts global state using setPosts
+    //         // Other wise each of the URL will be parsed to render one by one. Not good.
+    //         _posts.push({ title: name, date, url });
+
+    //     } else {
+    //         console.log("No match");
+    //         throw new Error("The URLs fetch from latest JSON file can't be parsed, Some Error when static site genrator. Frontend's clean.");
+    //     }
+    // });
+    // posts_handler.moveToPreviousFile();
+    // }
