@@ -1,0 +1,152 @@
+export const metadata = {
+title:"Matlab Basics",
+description: "With love and passion by Baltej Singh",
+}
+
+# Matlab Basics
+### 🟢 1. MATLAB as a Calculator
+
+You can use MATLAB directly like a calculator:
+
+```matlab
+>> 2 + 3       % Addition
+ans = 5
+
+>> 7 * 8       % Multiplication
+ans = 56
+
+>> 10 / 2      % Division
+ans = 5
+
+>> 2^3         % Power
+ans = 8
+```
+
+---
+
+### 🟢 2. Variables
+
+* No need to declare types.
+* Assign values with `=`.
+
+```matlab
+x = 5;
+y = 10;
+z = x + y;
+```
+
+* Variable names must start with a letter, and can include letters, digits, underscores.
+
+---
+
+### 🟢 3. Matrices and Vectors
+
+MATLAB is **matrix-based**.
+
+**Row vector:**
+
+```matlab
+a = [1 2 3 4];
+```
+
+**Column vector:**
+
+```matlab
+b = [1; 2; 3; 4];
+```
+
+**Matrix:**
+
+```matlab
+M = [1 2 3; 4 5 6; 7 8 9];
+```
+
+### 🟢 4. Matrix Operations
+
+```matlab
+M = [1 2; 3 4];
+N = [5 6; 7 8];
+
+M + N      % Matrix addition
+M * N      % Matrix multiplication
+M .* N     % Element-wise multiplication
+M'         % Transpose
+inv(M)     % Inverse
+det(M)     % Determinant
+```
+
+---
+
+### 🟢 5. Functions
+
+Built-in functions are powerful:
+
+```matlab
+sqrt(16)      % Square root
+sin(pi/2)     % Sine
+log(10)       % Natural log
+max([1 5 3])  % Maximum
+```
+
+You can also create your own function in a `.m` file:
+
+```matlab
+function y = squareNumber(x)
+    y = x^2;
+end
+```
+
+---
+
+### 🟢 6. Plotting
+
+Visualization is a big strength:
+
+```matlab
+x = 0:0.1:10;      % range from 0 to 10 with step 0.1
+y = sin(x);
+
+plot(x, y)
+title('Sine Wave')
+xlabel('x')
+ylabel('sin(x)')
+grid on
+```
+
+---
+
+### 🟢 7. Control Statements
+
+```matlab
+for i = 1:5
+    disp(i)
+end
+
+if x > 0
+    disp('Positive')
+else
+    disp('Non-positive')
+end
+
+while x < 100
+    x = x * 2;
+end
+```
+
+---
+
+### 🟢 8. Scripts vs Functions
+
+* **Scripts:** Just a sequence of commands, saved in a `.m` file.
+* **Functions:** Have input/output, defined using `function` keyword.
+
+---
+
+👉 These are the **core basics**. From here, you can dive into:
+
+* File I/O (`load`, `save`, `fopen`, `fscanf`)
+* Toolboxes (Signal Processing, Image Processing, etc.)
+* Advanced visualization (3D plots, surface plots)
+* Simulink (graphical modeling).
+
+    
