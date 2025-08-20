@@ -4,5 +4,9 @@
 - Checkout : [posts.baltej.me](https://posts.baltej.me)
 
 ## TODO : (TO Implement)
+<<<<<<< HEAD
+=======
+
+>>>>>>> a6fde78 (New post: GO)
 - Add author, add meta tags, and add time of publish at https://posts.baltej.me/
 - ~Write an optimise script.~
