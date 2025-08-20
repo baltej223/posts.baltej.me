@@ -1,0 +1,20 @@
+# 2009-11-10 23:00:00 UTC
+![go-logo](https://go.dev/images/go-logo-white.svg)
+- Something's special about this time.
+- If you go to [Tour of go](./https://go.dev/tour/) and then try to run 
+```Go
+package main
+import "time"
+import "fmt"
+
+func main(){
+    fmt.Println(time.Now())
+}
+```
+- it will always show **2009-11-10 23:00:00 UTC**
+- Because?:
+- The Go Playground runs in a sandboxed environment where real wall-clock time and system access are restricted. To make programs deterministic, time always starts at a fixed moment.
+
+- They chose 2009-11-10 23:00:00 UTC because that’s the date and approximate time when Go was publicly announced at Google.
+
+- So whenever you run time.Now() in the playground, you’ll always get that moment in history.
