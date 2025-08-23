@@ -51,7 +51,9 @@ export default function Code({
   whitespace = "                ",
 }) {
   let code = children.split("\n");
-
+  if (code.length == 1) {
+    return <span className="bg-zinc-700 rounded p-[1px]">{code[0]}</span>;
+  }
   {
     /* function popEverySecondElement(arr) {
     for (let i = arr.length - 1; i >= 0; i -= 2) {
