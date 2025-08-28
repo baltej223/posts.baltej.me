@@ -1,0 +1,26 @@
+export const metadata = {
+title:"JSON Web Token (JWT)",
+description: "With love and passion by Baltej Singh",
+}
+
+# JSON Web Token (JWT)
+- If you have some coding background, particularly from `WebDev` then you must have head about JWT authentication strategy, its not only authentication strategy but rather JWT is much more than this. Its a way to transmitng information, securely,  
+
+- JWT is the easiest way of securely transmitting information, and it's widely used in authentication methods.   
+
+ - **Authorization**: This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token. Single Sign On is a feature that widely uses JWT nowadays because of its small overhead and its ability to be easily used across different domains.
+
+- **Information Exchange**: JSON Web Tokens are a good way of securely transmitting information between parties. Because JWTs can be signed—for example, using public/private key pairs—you can be sure the senders are who they say they are. Additionally, as the signature is calculated using the header and the payload, you can also verify that the content hasn't been tampered with.
+
+- You also should not store sensitive session data in browser storage due to lack of security.
+
+- Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the Authorization header using the Bearer schema. The content of the header should look like the following:
+```
+Authorization: Bearer <token>
+```
+- This can be, in certain cases, a stateless authorization mechanism. The server's protected routes will check for a valid JWT in the Authorization header, and if it's present, the user will be allowed to access protected resources. If the JWT contains the necessary data, the need to query the database for certain operations may be reduced, though this may not always be the case.
+
+- **Note**:  If you send JWT tokens through HTTP headers, you should try to prevent them from getting too big. Some servers don't accept more than 8 KB in headers. If you are trying to embed too much information in a JWT token, like by including all the user's permissions, you may need an alternative solution, like Auth0 Fine-Grained Authorization.
+
+
+    

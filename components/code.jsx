@@ -52,7 +52,14 @@ export default function Code({
 }) {
   let code = children.split("\n");
   if (code.length == 1) {
-    return <span className="bg-zinc-700 rounded p-[1px]">{code[0]}</span>;
+    return (
+      <span
+        className="bg-zinc-700 rounded p-[1px]"
+        style={{ fontFamily: "monospace" }}
+      >
+        {code[0]}
+      </span>
+    );
   }
   {
     /* function popEverySecondElement(arr) {
