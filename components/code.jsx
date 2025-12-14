@@ -60,6 +60,27 @@ export default function Code({
         {code[0]}
       </span>
     );
+  } else {
+    const isSeqOfWhiteSpaces = (_lang) => {
+      let arr = _lang.split("");
+      let counter = 0;
+      arr.forEach((element)=>{
+        if (element = " ") counter++;
+      });
+      if (counter == arr.length){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    let code = children.split("\n");
+    console.log(children);
+    let _lang = code[0];
+    // console.log(_lang);
+    if (!isSeqOfWhiteSpaces(_lang)){
+      lang=_lang;
+    }
   }
   {
     /* function popEverySecondElement(arr) {
