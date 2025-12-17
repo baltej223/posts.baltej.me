@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const Loader = ({
   size = 72,
   speed = 1.5,
-  label = 'Loading...',
+  label = "Loading...",
   showLabel = true,
 }) => {
   const borderWidth = size * 0.08;
@@ -32,7 +32,7 @@ const Loader = ({
       </style>
       <div
         className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-        style={{ top: '38.2vh' }} // ≈ 1 / golden ratio of screen height
+        style={{ top: "38.2vh" }} // ≈ 1 / golden ratio of screen height
       >
         <div
           className="border-white border-solid rounded-full animate-[pulse-ring_ease-in-out_infinite]"

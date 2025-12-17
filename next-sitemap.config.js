@@ -1,15 +1,15 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://posts.baltej.me',
+  siteUrl: "https://posts.baltej.me",
   generateIndexSitemap: true,
   autoLastmod: true,
-  changefreq: 'daily',
+  changefreq: "daily",
   priority: 0.7,
   sitemapSize: 20, // Forces chunking & index generation
   generateRobotsTxt: true,
-  exclude: ['/bavi', '/look-and-feel'],
-  sourceDir: '.next',
-  outDir: 'public',
+  exclude: ["/bavi", "/look-and-feel"],
+  sourceDir: ".next",
+  outDir: "public",
 
   transform: async (config, path) => {
     return {
@@ -18,7 +18,7 @@ module.exports = {
       changefreq: config.changefreq,
       priority: config.priority,
       // Do NOT include alternateRefs — it's what triggers all the extra xmlns!
-    }
+    };
   },
 
   // Completely disable alternateRefs
@@ -26,6 +26,6 @@ module.exports = {
 
   // Avoid injecting anything else
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }],
+    policies: [{ userAgent: "*", allow: "/" }],
   },
-}
+};

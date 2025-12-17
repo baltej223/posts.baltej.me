@@ -1,9 +1,10 @@
 export const metadata = {
-title:"Overshadowing In Rust",
-description: "With love and passion by Baltej Singh",
-}
+  title: "Overshadowing In Rust",
+  description: "With love and passion by Baltej Singh",
+};
 
 # Overshadowing In Rust
+
 - There is a pretty intuitive concept of Overshadowing in `Rust` Which is, that you can shadow Variables in Rust, let me explain using an example
 
 ```Rust
@@ -12,12 +13,13 @@ let a = 10;
 
 {
     let a = 2;
-    println!("{}", a); // 2 will be printed 
+    println!("{}", a); // 2 will be printed
 }
 
 println!("{}", a); // 10 will be printed.
 ```
-For actually mutating the value of a you have to use 
+
+For actually mutating the value of a you have to use
 
 ```Rust
 let mut a = 10;
@@ -28,8 +30,5 @@ println!("{}", a); //  20
 ```
 
 ## Its use case
+
 - That activity is left for the reader. 😂
-
-
-
-    

@@ -1,29 +1,32 @@
 export const metadata = {
-title:"React Hydration",
-description: "With love and passion by Baltej Singh",
-}
+  title: "React Hydration",
+  description: "With love and passion by Baltej Singh",
+};
 
 # React Hydration
+
 Dan Abramov writes it as: “It’s like watering the “dry” HTML with the “water” of interactivity and event handlers.”
 
 One of the Reddit User define it like, "The server sends the client HTML along with a link to the JS to download. The JS gets downloaded and then “hydrates” the page taking it from a plain page to one with interactivity meaning adding handlers to buttons, events to elements on the page like onClick and so forth."
 
 ### In one line
+
 In React, **hydration** refers to the process where client-side JavaScript takes over the static HTML that was rendered on the server.
 
 ## Take example of NEXT.js and Vite
- - When we write a component on Vite, which is in pure react.js, if you have ever tried to view the source code of such a website, then you must  know that it just have one div [div#root] and then react runs in the browser, builds the virtual DOM, and populates #root by creating real DOM elements.
+
+- When we write a component on Vite, which is in pure react.js, if you have ever tried to view the source code of such a website, then you must know that it just have one div [div#root] and then react runs in the browser, builds the virtual DOM, and populates #root by creating real DOM elements.
 - This is not hydration, it's pure **client-side rendering**
 
 - When you use **Server-Side Rendering (SSR) (e.g., with Next.js)**, the HTML is generated on the server and sent to the browser.
 - NextJS first build the HTML that ReactJS would have built if it had ran on browser completly, which means if it had been Client Side Rendering, which is sent by NextJS server to client browser, and at this point, it’s just plain HTML, it can’t respond to events like clicks or typing yet.
 - Then, on the client side, React re-runs the same component tree (with the same props/state), Builds a virtual DOM, compares it to the existing server-rendered HTML, Attaches event listeners without touching the DOM unless needed.
 
-- This ***re-attachment*** is called **hydration**
+- This **_re-attachment_** is called **hydration**
 
 ## Hydration is absolutely necessary cause:
+
 1. Hydration is when React:
 2. Attaches event listeners
 3. Connects the static HTML to the virtual DOM
-4. ***Reactivates*** the page so it's interactive
-    
+4. **_Reactivates_** the page so it's interactive

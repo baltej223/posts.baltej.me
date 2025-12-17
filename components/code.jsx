@@ -48,7 +48,7 @@ export default function Code({
   style,
   children,
   // lang = "Javascript",
-  lang=" ",
+  lang = " ",
   whitespace = "                ",
 }) {
   let code = children.split("\n");
@@ -65,22 +65,22 @@ export default function Code({
     const isSeqOfWhiteSpaces = (_lang) => {
       let arr = _lang.split("");
       let counter = 0;
-      arr.forEach((element)=>{
-        if (element = " ") counter++;
+      arr.forEach((element) => {
+        if ((element = " ")) counter++;
       });
-      if (counter == arr.length){
+      if (counter == arr.length) {
         return true;
       } else {
         return false;
       }
-    }
+    };
 
     let code = children.split("\n");
     console.log(children);
     let _lang = code[0];
     // console.log(_lang);
-    if (!isSeqOfWhiteSpaces(_lang)){
-      lang=_lang;
+    if (!isSeqOfWhiteSpaces(_lang)) {
+      lang = _lang;
     }
   }
   {

@@ -1,9 +1,10 @@
 export const metadata = {
-title:"TypeScript syntax dump",
-description: "With love and passion by Baltej Singh",
-}
+  title: "TypeScript syntax dump",
+  description: "With love and passion by Baltej Singh",
+};
 
-## A full **TypeScript syntax dump** 
+## A full **TypeScript syntax dump**
+
 ### tailored for someone coming from React JSX:
 
 ## 🔰 BASICS
@@ -28,7 +29,11 @@ let person: [string, number] = ["Bavi", 18];
 ### Enums
 
 ```ts
-enum Role { ADMIN, USER, GUEST }
+enum Role {
+  ADMIN,
+  USER,
+  GUEST,
+}
 let myRole: Role = Role.USER;
 ```
 
@@ -85,7 +90,7 @@ type Post = {
   id: number;
   title: string;
   content?: string;
-}
+};
 ```
 
 ### Extending
@@ -145,7 +150,11 @@ type Props = {
 };
 
 const MyComponent: React.FC<Props> = ({ name, age }) => {
-  return <h1>{name} {age}</h1>;
+  return (
+    <h1>
+      {name} {age}
+    </h1>
+  );
 };
 ```
 
@@ -206,27 +215,25 @@ let strLength: number = (someValue as string).length;
 ## 🧩 UTILITY TYPES
 
 ```ts
-Partial<T>
-Required<T>
-Readonly<T>
-Record<K, T>
-Pick<T, K>
-Omit<T, K>
-Exclude<T, U>
-ReturnType<T>
+Partial<T>;
+Required<T>;
+Readonly<T>;
+Record<K, T>;
+Pick<T, K>;
+Omit<T, K>;
+Exclude<T, U>;
+ReturnType<T>;
 ```
 
 ---
 
 ## 🧠 ADVANCED PATTERNS
 
-* Discriminated unions (for exhaustive type checking)
-* Mapped types (`{ [K in keyof T]: ... }`)
-* Conditional types (`T extends U ? X : Y`)
-* Template literal types (`` `id-${string}` ``)
+- Discriminated unions (for exhaustive type checking)
+- Mapped types (`{ [K in keyof T]: ... }`)
+- Conditional types (`T extends U ? X : Y`)
+- Template literal types (`` `id-${string}` ``)
 
 ---
 
 Let me know which of these you want deeper examples or real usage of in your React apps—like props inference, context types, TS with Redux, etc. You’re officially coding with superpowers now.
-
-    

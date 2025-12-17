@@ -1,4 +1,5 @@
 # Objects in C-Lang
+
 - So first of all, can you write objects in C? Like C is not a object oriented language, but still you can get somewhat similar effect using structs.
 
 ```C
@@ -7,23 +8,28 @@ struct MyStruct {
     char* string;
 };
 ```
+
 ```C
 int main(){
     struct MyStruct str;
     str.number=21;
-    strcpy(str.string, "someRandomString"); 
+    strcpy(str.string, "someRandomString");
 }
 ```
+
 - This is not a typical object, if you are familiar with some other high level language (like cpp, JS/TS), then you know these now where near typical objects, which have a constructor, have other member functions or data members, typically have scopes like `public`, `private` etc.
-- At the core level, objects are based on the four pillars of the Object-Oriented paradigm: encapsulation, abstraction, inheritance, and polymorphism. 
-- if we just focus on the basics and analyze the situation from the lens  of functional programming , objects are just group some functions, proving a clear way to use them in an abstract way. 
+- At the core level, objects are based on the four pillars of the Object-Oriented paradigm: encapsulation, abstraction, inheritance, and polymorphism.
+- if we just focus on the basics and analyze the situation from the lens of functional programming , objects are just group some functions, proving a clear way to use them in an abstract way.
 - Although, it will be very wrong to say objects are only group of functions there is more to them, They are usually functions + encapsulated state + identity + dispatch rules etc.
 - Not deviating from the topic, So if we store function in C's `structs` **we can make makeshift objects in C.**
 - For than lets explore the concept of function pointers.
 
 ## Function Pointers
+
 - As the name suggests, **pointers to a function is a function pointer.**
+
 ### Defining and using one:
+
 ```C
 void Print(){
     printf("Hello");
@@ -31,12 +37,13 @@ void Print(){
 void (*fp)() = &Print;
 // or
 void (*fp)() = Print;
-// cause such function names decay to address only. 
+// cause such function names decay to address only.
 // The first one just make it more explicit.
 ```
+
 - So here we defined a function pointer `fp` which takes nothing and gives nothing.
 - If we have to call the function using the function pointer, then we can do, `fp()` or `(*fp)()` both are same.
-- If you have to declare a function pointers which stores the address of a function which take int and gives int, it can be done like this 
+- If you have to declare a function pointers which stores the address of a function which take int and gives int, it can be done like this
 
 ```C
 int add(){
@@ -44,6 +51,7 @@ return 1+1;
 }
 int (*fp)(int) = &add;
 ```
+
 - So we can make a struct which stores pointers to functions, and then we will be able to call those functions through the struct, using the `->` operator. Which will be a makeshift objects in C.
 
 ```C
@@ -54,12 +62,13 @@ struct Complex {
     struct Complex (*Add)(struct Complex self,  struct Complex other);
     int (*Real_part)(struct Complex c);
     int (*Img_part)(struct Complex c);
-   
+
     // Since the real and imaginary variables are public
     // so we don't need getters and setters.
 };
 
 ```
+
 - Next lets write the logic.
 
 ```c
@@ -78,11 +87,14 @@ int Img_part(struct Complex self) {
     return self.imaginary;
 }
 ```
-- Now we have to put these function's address to the struct provided. Can we do, 
+
+- Now we have to put these function's address to the struct provided. Can we do,
+
 ```C
 struct Complex (*Add)(struct Complex self,  struct Complex other) = &Add;
 ```
-- No, cause C does not allow default values inside struct definitions, and structs are just memory layouts. 
+
+- No, cause C does not allow default values inside struct definitions, and structs are just memory layouts.
 
 - So we can write a function which can behave like a constructor, which initializes and fills the address in the struct.
 
@@ -110,7 +122,9 @@ int main(){
     printf("%d\n", sum.Real_part(sum));
 }
 ```
+
 - **This makes our object in C**
+
 ### Full code:
 
 ```C
@@ -161,4 +175,5 @@ int main(){
     printf("%d\n", sum.Real_part(sum));
 }
 ```
-***Bye :D***
+
+**_Bye :D_**

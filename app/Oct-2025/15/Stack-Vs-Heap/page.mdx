@@ -1,9 +1,10 @@
 export const metadata = {
-title:"Stack Vs Heap",
-description: "With love and passion by Baltej Singh",
-}
+  title: "Stack Vs Heap",
+  description: "With love and passion by Baltej Singh",
+};
 
 # Stack Vs Heap
+
 - We say, all data stored on the stack must have a known, fixed size. Data with an unknown size at compile time or a size that might change must be stored on the heap instead.
 - You might intuitively understand this, but actually, its not self explanatory, and here exist a great gap.
 - The stack’s memory layout must be statically known per function call.
@@ -13,11 +14,11 @@ description: "With love and passion by Baltej Singh",
 
 - But, from the fact, that I can't pull plates from between, How can we say that All data stored on the stack must have a known, fixed size. Data with an unknown size at compile time or a size that might change must be stored on the heap instead?
 
-# *Answer*
+# _Answer_
 
 You’re absolutely right to call out the logical gap here:
 
-> “How does *LIFO access (can’t pull plates from the middle)* logically imply that *everything on the stack must have known, fixed size*?”
+> “How does _LIFO access (can’t pull plates from the middle)_ logically imply that _everything on the stack must have known, fixed size_?”
 
 Let’s go slow and connect those two ideas precisely.
 We’ll move from **mechanical properties** → **compiler requirements** → **conceptual link**.
@@ -44,11 +45,11 @@ add rsp, 32   ; free those 32 bytes
 That’s it.
 The “stack” is just a moving pointer — no metadata, no allocator, no per-variable bookkeeping.
 
-So the compiler must know exactly *how much to move the pointer by* for each frame.
+So the compiler must know exactly _how much to move the pointer by_ for each frame.
 
 ---
 
-## 🧮 Step 2: Why that forces *known, fixed sizes*
+## 🧮 Step 2: Why that forces _known, fixed sizes_
 
 If your function has:
 
@@ -74,7 +75,7 @@ sub rsp, 16
 ```
 
 Now memory layout is deterministic.
-That’s what lets stack push/pop be *O(1)*.
+That’s what lets stack push/pop be _O(1)_.
 
 ---
 
@@ -88,14 +89,14 @@ fn foo(n: usize) {
 }
 ```
 
-Now the compiler doesn’t know *how many bytes* to reserve for `arr`.
+Now the compiler doesn’t know _how many bytes_ to reserve for `arr`.
 You could try to emit:
 
 ```asm
 sub rsp, ???  ; how many bytes?
 ```
 
-But that “???” depends on `n`, which is only known *at runtime*.
+But that “???” depends on `n`, which is only known _at runtime_.
 
 You could in principle do:
 
@@ -106,11 +107,11 @@ sub rsp, rdi  ; where rdi = n
 and that would work — this is called a **dynamic stack allocation** or **alloca** in C.
 But it’s unsafe and platform-dependent, because:
 
-* The OS doesn’t grow the stack dynamically (it’s a fixed region).
-* Large or variable allocations can easily overflow the stack.
-* The compiler can’t reason about frame layout anymore (so debugging, unwinding, safety break).
+- The OS doesn’t grow the stack dynamically (it’s a fixed region).
+- Large or variable allocations can easily overflow the stack.
+- The compiler can’t reason about frame layout anymore (so debugging, unwinding, safety break).
 
-Rust (and most safe languages) therefore *forbid* dynamically-sized stack allocations by default.
+Rust (and most safe languages) therefore _forbid_ dynamically-sized stack allocations by default.
 
 Instead, they allocate dynamically-sized data on the **heap**, where an allocator can manage variable lifetimes and sizes safely.
 
@@ -120,21 +121,21 @@ Instead, they allocate dynamically-sized data on the **heap**, where an allocato
 
 Your metaphor of “can’t pull plates from between” describes **stack discipline** — strict LIFO order of allocation and deallocation.
 
-To maintain that discipline efficiently, the stack pointer must move in *fixed, compile-time-known steps.*
+To maintain that discipline efficiently, the stack pointer must move in _fixed, compile-time-known steps._
 
 Let’s connect this to “fixed size”:
 
 ### On a stack:
 
-* You push plate A (size known).
-* You push plate B (size known).
-* You can pop B, then A — perfect.
+- You push plate A (size known).
+- You push plate B (size known).
+- You can pop B, then A — perfect.
 
-But if you push a plate whose size you *don’t know until runtime*:
+But if you push a plate whose size you _don’t know until runtime_:
 
-* You can’t predefine where B starts relative to A.
-* You can’t generate code that directly references its offsets.
-* You can’t know the total frame size to move the stack pointer back safely.
+- You can’t predefine where B starts relative to A.
+- You can’t generate code that directly references its offsets.
+- You can’t know the total frame size to move the stack pointer back safely.
 
 So the “known, fixed size” requirement is not because of the physical inability to handle unknown sizes,
 but because of **the compile-time determinism requirement** that makes stack discipline work without bookkeeping.
@@ -144,7 +145,7 @@ but because of **the compile-time determinism requirement** that makes stack dis
 ## 🗃 Step 5: The heap’s contrasting model
 
 Heap allocators maintain metadata about which chunks of memory are used or free.
-So at runtime, they *can* handle variable-size allocations:
+So at runtime, they _can_ handle variable-size allocations:
 
 ```rust
 let v = vec![0u8; n]; // works fine
@@ -152,9 +153,9 @@ let v = vec![0u8; n]; // works fine
 
 Because the allocator:
 
-* Finds a free chunk of `n` bytes.
-* Returns a pointer.
-* Keeps track of it internally.
+- Finds a free chunk of `n` bytes.
+- Returns a pointer.
+- Keeps track of it internally.
 
 There’s no global “stack pointer” that must stay at a predictable place;
 the allocator’s internal data structures handle the “unstructured” lifetimes and sizes.
@@ -180,7 +181,7 @@ That’s the missing logical bridge.
 So it’s not that “unknown size ⇒ can’t do LIFO.”
 It’s:
 
-> “To *implement* LIFO efficiently with a single stack pointer,
+> “To _implement_ LIFO efficiently with a single stack pointer,
 > the compiler must know frame sizes at compile time,
 > which requires every value on that stack to have a fixed size.”
 
@@ -199,15 +200,13 @@ It’s:
 
 So your intuition was dead on:
 
-> “Not being able to pull plates from between” describes *the freeing order constraint.*
+> “Not being able to pull plates from between” describes _the freeing order constraint._
 > “Known, fixed size” arises because the compiler must emit code that moves the stack pointer by a fixed, precomputed amount — and that’s only possible if the frame layout is statically known.
 
 ---
 
 Would you like me to show a visual comparison of stack pointer movement for:
 
-* fixed-size (compile-time-known) stack frames, vs.
-* variable-size (runtime-sized) frames,
-  so you can *see* how the pointer math breaks down in the second case?
-
-    
+- fixed-size (compile-time-known) stack frames, vs.
+- variable-size (runtime-sized) frames,
+  so you can _see_ how the pointer math breaks down in the second case?
