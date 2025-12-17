@@ -47,7 +47,8 @@ export default function Code({
   className,
   style,
   children,
-  lang = "Javascript",
+  // lang = "Javascript",
+  lang=" ",
   whitespace = "                ",
 }) {
   let code = children.split("\n");
