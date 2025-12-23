@@ -199,6 +199,12 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 
     <script>
+
+let currentPostMeta = {
+  monthYear: null,
+  date: null,
+};
+
       const defaultMDX = `# Welcome ✨`;
 
       const editor = document.getElementById("mdxEditor");
@@ -218,61 +224,88 @@
 
       /* ===== LOAD POSTS ===== */
 
-      async function loadPostList() {
-        const res = await fetch("/api/all_folders_in_app");
-        const posts = await res.json();
+async function loadPostList() {
+  const res = await fetch("/api/all_folders_in_app");
+  const posts = await res.json();
 
-        postList.innerHTML = "";
+  postList.innerHTML = "";
 
-        posts.forEach((path) => {
-          const cleanPath = path.replace("/page.mdx", "");
-          const item = document.createElement("div");
+  let last = null;
 
-          item.className = "post-item";
-          item.textContent = cleanPath;
+  posts.forEach((path) => {
+    const cleanPath = path.replace("/page.mdx", "");
+    const item = document.createElement("div");
 
-          item.onclick = () => loadPost(cleanPath, item);
-          postList.appendChild(item);
-        });
-      }
+    item.className = "post-item";
+    item.textContent = cleanPath;
+    item.onclick = () => loadPost(cleanPath, item);
 
-      async function loadPost(path, el) {
-        document
-          .querySelectorAll(".post-item")
-          .forEach((p) => p.classList.remove("active"));
-        el.classList.add("active");
+    postList.appendChild(item);
+    last = { cleanPath, item };
+  });
 
-        const res = await fetch(`/api/get_post/${path}/`);
-        const data = await res.json();
+  // load last post AFTER items exist
+  if (last) {
+    loadPost(last.cleanPath, last.item);
+  }
+}
 
-        editor.value = data.data;
-        document.getElementById("postName").value = data.name;
 
-        updatePreview();
-      }
+
+async function loadPost(path, el) {
+  document
+    .querySelectorAll(".post-item")
+    .forEach((p) => p.classList.remove("active"));
+  el.classList.add("active");
+
+  const res = await fetch(`/api/get_post/${path}/`);
+  const data = await res.json();
+
+  // 🔹 STORE META
+  currentPostMeta.monthYear = data.monthYear;
+  currentPostMeta.date = data.date;
+
+  editor.value = data.data;
+  document.getElementById("postName").value = data.name;
+
+  updatePreview();
+}
+
 
       /* ===== SAVE POST ===== */
 
-      function savePost() {
-        const content = editor.value;
-        const name = document.getElementById("postName").value.trim();
 
-        if (!name) {
-          alert("Please enter a post name");
-          return;
-        }
+function savePost() {
+  const content = editor.value;
+  const name = document.getElementById("postName").value.trim();
 
-        fetch("http://localhost:4245/api/receive_post", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, content }),
-        })
-          .then((r) => r.json())
-          .then(() => alert("Saved"))
-          .catch(() => alert("Save failed"));
-      }
+  if (!name) {
+    alert("Please enter a post name");
+    return;
+  }
 
-      loadPostList();
+  if (!currentPostMeta.monthYear || !currentPostMeta.date) {
+    alert("No post loaded — cannot determine date/month");
+    return;
+  }
+
+  fetch("http://localhost:4245/api/receive_post", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name,
+      data:content,
+      monthYear: currentPostMeta.monthYear,
+      date: currentPostMeta.date,
+    }),
+  })
+    .then((r) => r.json())
+    .then(() => alert("Saved"))
+    .catch(() => alert("Save failed"));
+}
+
+
+loadPostList();
 
 
 
