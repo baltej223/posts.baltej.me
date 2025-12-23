@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MDX Editor - Dark</title>
+
     <link
       href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css"
       rel="stylesheet"
     />
+
     <style>
       body {
         margin: 0;
@@ -18,6 +20,7 @@
         flex-direction: column;
         height: 100vh;
       }
+
       .navbar {
         display: flex;
         justify-content: space-between;
@@ -29,12 +32,14 @@
         top: 0;
         z-index: 1000;
       }
+
       .navbar h1 {
         margin: 0;
         font-size: 1.2rem;
         font-weight: bold;
         color: #e0e0e0;
       }
+
       .post-name-input {
         background: #1e1e1e;
         border: 1px solid #333;
@@ -45,11 +50,12 @@
         font-size: 0.9rem;
         width: 200px;
       }
+
       .post-name-input::placeholder {
         color: #aaa;
       }
+
       .save-button {
-        font-family: Arial, Helvetica, sans-serif;
         background-color: #3b82f6;
         color: white;
         padding: 0.5rem 1rem;
@@ -57,17 +63,63 @@
         border-radius: 6px;
         cursor: pointer;
         font-weight: bold;
-        transition: background-color 0.3s;
       }
+
       .save-button:hover {
         background-color: #2563eb;
       }
+
+      /* ===== NEW LAYOUT ===== */
+
+      .app-layout {
+        display: flex;
+        flex: 1;
+        height: calc(100vh - 64px);
+      }
+
+      .sidebar {
+        width: 280px;
+        background: #141414;
+        border-right: 1px solid #333;
+        overflow-y: auto;
+        padding: 1rem;
+      }
+
+      .sidebar h2 {
+        margin-top: 0;
+        font-size: 1rem;
+        color: #cfcfcf;
+        margin-bottom: 1rem;
+      }
+
+      .post-item {
+        padding: 0.5rem 0.6rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: #ddd;
+        margin-bottom: 0.3rem;
+        word-break: break-word;
+      }
+
+      .post-item:hover {
+        background: #1f1f1f;
+      }
+
+      .post-item.active {
+        background: #2563eb;
+        color: white;
+      }
+
+      /* ===== ORIGINAL EDITOR ===== */
+
       .editor-container {
         display: flex;
         flex: 1;
         padding: 1rem;
         gap: 1rem;
       }
+
       .editor,
       .preview {
         width: 50%;
@@ -77,38 +129,49 @@
         border: none;
         font-size: 16px;
         padding: 1rem;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
         line-height: 1.6;
-        font-family:
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          sans-serif;
         overflow-y: auto;
       }
+
       .editor {
         resize: none;
+        font-family: ui-monospace, monospace;
       }
+
       pre {
         overflow-x: auto;
       }
+
       code {
         background: #2d2d2d;
         padding: 0.2em 0.4em;
         border-radius: 4px;
-        font-family: monospace;
       }
+
       a {
         color: #93c5fd;
       }
-      #postName {
-        font-family: Arial, Helvetica, sans-serif;
-      }
+
+.sidebar {
+  transition: width 0.25s ease, padding 0.25s ease;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  border-right: none;
+}
+
+.sidebar.collapsed * {
+  display: none;
+}
     </style>
   </head>
+
   <body>
     <div class="navbar">
+      <button id="toggleSidebar" class="save-button">☰</button>
       <h1>Post Editor</h1>
       <input
         id="postName"
@@ -118,33 +181,30 @@
       <button class="save-button" onclick="savePost()">Save</button>
     </div>
 
-    <div class="editor-container">
-      <textarea id="mdxEditor" class="editor"></textarea>
-      <div id="preview" class="preview"></div>
+    <div class="app-layout">
+      <!-- ===== SIDEBAR ===== -->
+      <div class="sidebar">
+        <h2>Posts</h2>
+        <div id="postList"></div>
+      </div>
+
+      <!-- ===== ORIGINAL EDITOR ===== -->
+      <div class="editor-container">
+        <textarea id="mdxEditor" class="editor"></textarea>
+        <div id="preview" class="preview"></div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+
     <script>
-      const defaultMDX = `---
-title: "Untitled Post"
-date: "2025-06-06"
----
-
-import Component from "../components/Example"
-
-# Welcome to your new post ✨
-
-Here is some MDX content with **markdown** and <Component />
-
-\`\`\`js
-console.log("Hello, Bavi!");
-\`\`\``;
+      const defaultMDX = `# Welcome ✨`;
 
       const editor = document.getElementById("mdxEditor");
       const preview = document.getElementById("preview");
+      const postList = document.getElementById("postList");
 
-      // Load from localStorage or use default
       editor.value = localStorage.getItem("mdxContent") || defaultMDX;
 
       function updatePreview() {
@@ -156,33 +216,108 @@ console.log("Hello, Bavi!");
       editor.addEventListener("input", updatePreview);
       window.addEventListener("load", updatePreview);
 
+      /* ===== LOAD POSTS ===== */
+
+      async function loadPostList() {
+        const res = await fetch("/api/all_folders_in_app");
+        const posts = await res.json();
+
+        postList.innerHTML = "";
+
+        posts.forEach((path) => {
+          const cleanPath = path.replace("/page.mdx", "");
+          const item = document.createElement("div");
+
+          item.className = "post-item";
+          item.textContent = cleanPath;
+
+          item.onclick = () => loadPost(cleanPath, item);
+          postList.appendChild(item);
+        });
+      }
+
+      async function loadPost(path, el) {
+        document
+          .querySelectorAll(".post-item")
+          .forEach((p) => p.classList.remove("active"));
+        el.classList.add("active");
+
+        const res = await fetch(`/api/get_post/${path}/`);
+        const data = await res.json();
+
+        editor.value = data.data;
+        document.getElementById("postName").value = data.name;
+
+        updatePreview();
+      }
+
+      /* ===== SAVE POST ===== */
+
       function savePost() {
         const content = editor.value;
         const name = document.getElementById("postName").value.trim();
 
         if (!name) {
-          alert("Please enter a post name before saving.");
+          alert("Please enter a post name");
           return;
         }
 
-        fetch("/", {
+        fetch("http://localhost:4245/api/receive_post", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, content }),
         })
-          .then((response) => {
-            if (!response.ok) throw new Error("Failed to save post");
-            return response.json();
-          })
-          .then((data) => {
-            alert("Post saved successfully!");
-          })
-          .catch((error) => {
-            alert("Error saving post: " + error.message);
-          });
+          .then((r) => r.json())
+          .then(() => alert("Saved"))
+          .catch(() => alert("Save failed"));
       }
+
+      loadPostList();
+
+
+
+const editorEl = document.getElementById("mdxEditor");
+const previewEl = document.getElementById("preview");
+
+let isSyncingEditor = false;
+let isSyncingPreview = false;
+
+function syncScroll(source, target) {
+  const sourceScrollTop = source.scrollTop;
+  const sourceScrollHeight = source.scrollHeight - source.clientHeight;
+  const targetScrollHeight = target.scrollHeight - target.clientHeight;
+
+  if (sourceScrollHeight === 0) return;
+
+  const ratio = sourceScrollTop / sourceScrollHeight;
+  target.scrollTop = ratio * targetScrollHeight;
+}
+
+editorEl.addEventListener("scroll", () => {
+  if (isSyncingEditor) return;
+  isSyncingPreview = true;
+  syncScroll(editorEl, previewEl);
+  isSyncingPreview = false;
+});
+
+previewEl.addEventListener("scroll", () => {
+  if (isSyncingPreview) return;
+  isSyncingEditor = true;
+  syncScroll(previewEl, editorEl);
+  isSyncingEditor = false;
+});
+
+
+const sidebar = document.querySelector(".sidebar");
+const toggleBtn = document.getElementById("toggleSidebar");
+
+let sidebarOpen = true;
+
+toggleBtn.addEventListener("click", () => {
+  sidebarOpen = !sidebarOpen;
+  sidebar.classList.toggle("collapsed", !sidebarOpen);
+});
     </script>
   </body>
 </html>
+
