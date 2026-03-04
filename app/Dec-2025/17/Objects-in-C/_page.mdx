@@ -26,9 +26,9 @@ int main(){
 - This object is not typical, unlike those in high-level languages like C++ or JS/TS. Typical objects contain a constructor, member functions or data members, and scopes like `public` or `private`.
 - At the core level, objects are based on the four pillars of the Object-Oriented paradigm: encapsulation, abstraction, inheritance, and polymorphism.
 - if we just focus on the basics and analyze the situation from the lens of functional programming, objects are group of some functions, providing a clear way and abstract way to use them.
-- Although, it will be very wrong to say objects are only group of functions there is more to them, They are usually functions + encapsulated state + identity + dispatch rules etc.
-- Not deviating from the topic, So if we store function in C's `structs` **we can make makeshift objects in C.**
-- For that lets explore the concept of function pointers.
+- Although, it will be very wrong to say objects are only group of functions as there is more to them, They are usually functions + encapsulated state + identity + dispatch rules etc.
+- Not deviating from the topic, So if we are able to somehow store function in C's `structs` **we can get objects in C Language.**
+- For that, lets explore the concept of function pointers.
 
 ## Function Pointers
 
@@ -49,16 +49,19 @@ void (*fp)() = Print;
 
 - So here we defined a function pointer `fp` which takes nothing and gives nothing.
 - If we have to call the function using the function pointer, then we can do, `fp()` or `(*fp)()` both are same.
-- If you have to declare a function pointers which stores the address of a function which take int and gives int, it can be done like this
+- If you have to declare a function pointer which stores the address of a function, which take in int and gives out int, it can be done like this:
 
 ```C
-int add(){
-return 1+1;
+int add(int i){
+return 1+i;
 }
 int (*fp)(int) = &add;
+// and using it, 
+fp(1); // stdout: 2
 ```
 
 - So we can make a struct which stores pointers to functions, and then we will be able to call those functions through the struct, using the `->` operator. Which will be a makeshift objects in C.
+
 
 ```C
 struct Complex {
@@ -66,23 +69,24 @@ struct Complex {
     int imaginary;
 
     struct Complex (*Add)(struct Complex self,  struct Complex other);
-    int (*Real_part)(struct Complex c);
-    int (*Img_part)(struct Complex c);
+    int (*Real_part)(struct Complex self);
+    int (*Img_part)(struct Complex self);
 
     // Since the real and imaginary variables are public
     // so we don't need getters and setters.
 };
+````
 
-```
-
-- Next lets write the logic.
+* Next lets write the logic.
 
 ```c
+struct Complex Complex_new(int r, int i);
+
 struct Complex Add(struct Complex self, struct Complex other) {
-    struct Complex result;
-    result.real = self.real + other.real;
-    result.imaginary = self.imaginary + other.imaginary;
-    return result;
+    return Complex_new(
+        self.real + other.real,
+        self.imaginary + other.imaginary
+    );
 }
 
 int Real_part(struct Complex self) {
@@ -94,15 +98,15 @@ int Img_part(struct Complex self) {
 }
 ```
 
-- Now we have to put these function's address to the struct provided. Can we do,
+* Now we have to put these function's address to the struct provided. Can we do,
 
 ```C
 struct Complex (*Add)(struct Complex self,  struct Complex other) = &Add;
 ```
 
-- No, cause C does not allow default values inside struct definitions, and structs are just memory layouts.
+* No, cause C does not allow default values inside struct definitions, and structs are just memory layouts.
 
-- So we can write a function which can behave like a constructor, which initializes and fills the address in the struct.
+* So we can write a function which can behave like a constructor, which initializes and fills the address in the struct.
 
 ```C
 struct Complex Complex_new(int r, int i) {
@@ -129,28 +133,23 @@ int main(){
 }
 ```
 
-- **This makes our object in C**
+* **This makes our object in C**
 
 ### Full code:
 
 ```C
-# include<stdio.h>
+#include <stdio.h>
 
 struct Complex {
     int real;
     int imaginary;
 
     struct Complex (*Add)(struct Complex self,  struct Complex other);
-    int (*Real_part)(struct Complex c);
-    int (*Img_part)(struct Complex c);
+    int (*Real_part)(struct Complex self);
+    int (*Img_part)(struct Complex self);
 };
 
-struct Complex Add(struct Complex self, struct Complex other) {
-    struct Complex result;
-    result.real = self.real + other.real;
-    result.imaginary = self.imaginary + other.imaginary;
-    return result;
-}
+struct Complex Complex_new(int r, int i);
 
 int Real_part(struct Complex self) {
     return self.real;
@@ -158,6 +157,13 @@ int Real_part(struct Complex self) {
 
 int Img_part(struct Complex self) {
     return self.imaginary;
+}
+
+struct Complex Add(struct Complex self, struct Complex other) {
+    return Complex_new(
+        self.real + other.real,
+        self.imaginary + other.imaginary
+    );
 }
 
 struct Complex Complex_new(int r, int i) {
@@ -172,6 +178,7 @@ struct Complex Complex_new(int r, int i) {
 
     return c;
 }
+
 int main(){
     struct Complex c1 = Complex_new(3, 4);
     struct Complex c2 = Complex_new(1, 2);
