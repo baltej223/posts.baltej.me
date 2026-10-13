@@ -1,5 +1,5 @@
 import express from "express";
-import { fstat, readFile, readFileSync, writeFileSync, readdirSync, renameSync } from "fs";
+import { fstat, readFile, readFileSync, writeFileSync, readdirSync, renameSync, existsSync } from "fs";
 import path from "path";
 
 
@@ -30,36 +30,43 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body);
-  const { name, content } = req.body;
+function newPOST(name, content) {
   // console.log('Received MDX content:\n', content);
   let date = new Date();
   writeFileSync(`./storage/${date}.mdx`, content);
   let postNames = JSON.parse(readFileSync("./storage/posts.json"));
   postNames[date] = name.replace(/ /g, "-");
   writeFileSync("./storage/posts.json", JSON.stringify(postNames));
-  res.json({ success: true, message: "Post received!" });
-});
+}
 
 let router = express.Router();
 
-router.get("/all_folders_in_app", (req, res)=>{
+router.get("/all_folders_in_app", (req, res) => {
   // res.json({"crazy":"ya"});
   // It reads and send the information of all the posts 
   // in folder app so that user can edit the older posts if want
   //
   // Read the folder structure.
-  try{
-   let files = readdirSync("../app", { recursive: true });
-  
-   // console.log(files);
-   files = files.filter(element => element.endsWith(".mdx"));
-   // console.log(files);
-   res.json(files);
+  try {
+    let files = readdirSync("../", { recursive: true });
+
+    // console.log(files);
+    files = files.filter((element) => {
+      if (element.endsWith(".mdx") && !element.includes("_page")) {
+        return true;
+      }
+      return false;
+    });
+
+    console.log(files);
+
+    files = files.map(file => file.replace("app/", ""));
+
+    // console.log(files);
+    res.json(files);
   }
-  catch(e){
-    res.status(500).json({error:e});
+  catch (e) {
+    res.status(500).json({ error: e });
   }
 });
 
@@ -72,7 +79,7 @@ function inApp(_path = "") {
 
 router.get("/get_post/:monthYear/:date/:name", async (req, res) => {
   const { monthYear, date, name } = req.params;
-  let json = {monthYear, date, name}
+  let json = { monthYear, date, name }
   // res.json({monthYear, date, name})
   // Now lets read the actual file 
   const file_data = await readFileSync(inApp(`${monthYear}/${date}/${name}/page.mdx`), 'utf-8');
@@ -81,20 +88,35 @@ router.get("/get_post/:monthYear/:date/:name", async (req, res) => {
   res.send(json);
 });
 
-router.post("/receive_post", (req, res)=>{
+router.post("/receive_post", (req, res) => {
   let json = req.body;
   console.log(json);
-  if (json == undefined || !json.monthYear || !json.date || !json.name || !json.data){
-    res.send({error:"BAD REQUEST"});
+  if (json == undefined || !json.monthYear || !json.date || !json.name || !json.data) {
+    res.send({ error: "BAD REQUEST" });
   }
-  // Now change the content of json stored at the location 
-  //
-  let file_addr = inApp(`${json.monthYear}/${json.date}/${json.name}`);
-  // purani file ka name _page.mdx and new file create jiska name page.mdx
-  renameSync(file_addr+"/page.mdx", file_addr+"/_page.mdx");
-  writeFileSync(file_addr+"/page.mdx", json.data);
-  res.send({"message":"success"})
-})
+
+  const { monthYear, date, name, data } = json;
+
+  const postDir = inApp(`${monthYear}/${date}/${name}`);
+  const pagePath = path.join(postDir, "page.mdx");
+  // const oldPagePath = path.join(postDir, "_page.mdx");
+
+  const isNewPost = !existsSync(pagePath);
+
+  if (isNewPost) {
+    newPOST(name, data);
+    res.json({ success: true, message: "Post received!" });
+  }
+  else {
+    // Now change the content of json stored at the location 
+    //
+    let file_addr = inApp(`${json.monthYear}/${json.date}/${json.name}`);
+    // purani file ka name _page.mdx and new file create jiska name page.mdx
+    renameSync(file_addr + "/page.mdx", file_addr + "/_page.mdx");
+    writeFileSync(file_addr + "/page.mdx", json.data);
+    res.send({ "message": "success" })
+  }
+});
 
 app.use("/api", router);
 
